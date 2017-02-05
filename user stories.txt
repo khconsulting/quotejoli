@@ -1,0 +1,171 @@
+User Story:
+-------( 1)---------
+As an Admin User
+  I want to see the "View Publishers" button
+  So that I can view the list of publishers
+
+Acceptance Criteria
+- 1) Given the user has logged in and is an admin user, the main UI will show the "View Publishers" button
+
+-------( 2)---------
+As an Admin User
+  I want to see the list of publishers
+  So that I can edit it if necessary
+
+Acceptance Criteria
+- 1) Given the user has clicked "View Publishers", when there are no publishers, the list will be empty, and there will be a message that "There are no Publishers in the system"
+
+-------( 3)---------
+As an Admin User
+  I want to see the list of publishers
+  So that I can edit it if necessary
+
+Acceptance Criteria
+- 1) Given the user has clicked "View Publishers", when there are no publishers, the list will be empty, and there will be a message that "There are no Publishers in the system"
+
+- 2) Given the user has clicked "View Publishers", when there are publishers, the list will be populated with the publishers from the database, and there will be no other message.
+
+-------( 4)---------
+As a regular user
+  I want to not see the "View Publishers" button
+
+Acceptance Criteria
+- 1) Given the user is a regular use, and is viewing the main view, the "View Publishers" button is not displayed
+
+-------( 5)---------
+As an Admin User
+  I want to see the "Add Publisher" button
+  So that I can use it to add a publisher
+
+Acceptance Criteria
+- 1) Given:
+	* The user has logged in
+	* Is an admin user
+	* Is viewing the main view
+  The main UI will show the "Add Publishers" button
+
+-------( 6)---------
+As a Quotes or Admin User
+  I want to see the "View Quotes" button
+  So that I can use it to view quotes
+
+Acceptance Criteria
+- 1) Given:
+	* The user has logged in
+	* Is viewing the main view
+  The main UI will show the "View Quotes" button
+
+-------( 7)---------
+As a Quotes or Admin User
+  I want to see the "View Sources" button
+  So that I can use it to view sources
+
+Acceptance Criteria
+- 1) Given:
+	* The user has logged in
+	* Is viewing the main view
+  The main UI will show the "View Sources" button
+
+-------( 8)---------
+As a Quotes or Admin User
+  I want to see the "Add Quote" button
+  So that I can use it to add a quote
+
+Acceptance Criteria
+- 1) Given:
+	* The user has logged in
+	* Is viewing the main view
+  The main UI will show the "Add Quote" button
+
+-------( 9)---------
+As a Quotes or Admin User
+  I want to see the list of quotes
+  So that I can manage quotes
+
+Acceptance Criteria
+- 1) Given:
+	* The user has logged in
+	* The user is viewing the main view
+	* The user clicked the "View Quotes" button
+	* There are N quotes in the database
+  The main UI will show a list of N Quotes
+  
+- 2) Given:
+	* The user has logged in
+	* The user is viewing the main view
+	* The user clicked the "View Quotes" button
+	* There are no quotes in the database
+  The main UI will show the message "There are no quotes in the system."
+
+-------(12)---------
+As a Quotes or Admin User
+  I want to save a new quote to the database
+  So that I can retrieve the quote from the database later
+
+Acceptance Criteria
+- 1) Given:
+	* The user has logged in
+	* The user is viewing the main view
+	* The user clicked the "Add Quote" button
+  The main UI will assume the quote is from a book, and controls that will allow the user to specify all properties of a book quote
+{New criteria will be added later to allow changing the source type, and to include the quote properties relevant to those types}
+
+  
+Quotes:
+  Add (8, 11)
+  List (6, 9)
+  Search ()
+  Cite ()
+  Edit
+  Delete
+
+Publishers:
+
+Sources:
+
+Tags:
+
+WORKFLOWS:
+
+Open System
+-----------
+1) Open tool
+2) Login
+3) View search tool
+
+List quotes
+-----------
+1) Open tool
+2) Login
+3) View list of quotes
+  3a) If no quotes, show message "I can't find any quotes in the system."
+
+Add quote
+---------
+1) [List quotes]
+2) Create new unsaved quote
+  2a) Set quote Source
+    2a1) Type title of Source
+	2a2) List Sources that match title
+	2a3) Add new Source
+	2a4) Save new Source
+	2a4) Save Source in quote
+  2b) Set other properties
+3) Save unsaved quote to database
+  3a) Save succeeds, move new quote into list of quotes
+  3b) Save fails, show error, do not move quote into list of quotes
+
+Edit & save quote
+----------
+1) [List quotes]
+2) Select quote - controls will populate with properties
+3) Edit properties
+4) Save quote
+
+Get Citation
+-------------
+1) [List quotes]
+2) Select quote
+3) Click "Cite" button
+4) Select format [APA, MLA, Chicago]
+5) Citation appears in text box for copying
