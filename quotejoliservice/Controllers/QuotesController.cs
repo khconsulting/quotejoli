@@ -25,7 +25,7 @@ namespace quotejoliservice.Controllers
         }
 
         [ResponseType(typeof(Quote))]
-        [Route("api/Quotes")]
+        [Route("api/Quotes", Name="AddQuote")]
         [HttpPost]
         public IHttpActionResult AddQuote(Quote quote)
         {
@@ -41,7 +41,7 @@ namespace quotejoliservice.Controllers
                 db.Quotes.Add(quote);
                 db.SaveChanges();
 
-                return StatusCode(HttpStatusCode.Created);
+                return CreatedAtRoute("DefaultApi", new { controller = "Quotes", id = quote.id }, quote);
             }
             catch (Exception)
             {
@@ -49,6 +49,8 @@ namespace quotejoliservice.Controllers
             }
         }
 
+        [ResponseType(typeof(Quote))]
+        [HttpPut]
         public IHttpActionResult UpdateQuote(Quote quote)
         {
             var id = 0;
@@ -87,6 +89,7 @@ namespace quotejoliservice.Controllers
 
         // GET: api/Quotes/5
         [ResponseType(typeof(Quote))]
+        [HttpGet]
         public IHttpActionResult GetQuote(int id)
         {
             Quote quote = db.Quotes.Find(id);
@@ -98,23 +101,9 @@ namespace quotejoliservice.Controllers
             return Ok(quote);
         }
 
-        // POST: api/Quotes
-        [ResponseType(typeof(Quote))]
-        public IHttpActionResult PostQuote(Quote quote)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Quotes.Add(quote);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = quote.id }, quote);
-        }
-
         // DELETE: api/Quotes/5
         [ResponseType(typeof(Quote))]
+        [HttpDelete]
         public IHttpActionResult DeleteQuote(int id)
         {
             Quote quote = db.Quotes.Find(id);

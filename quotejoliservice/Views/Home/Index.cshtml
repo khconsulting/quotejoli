@@ -93,6 +93,8 @@
         </div>
         <div id="addPane" class="panel-collapse collapse">
             <div class="panel-body">
+
+                <div data-bind="foreach: newQuotes">
                 <!-- ADD PANE -->
                 <div class="row">
                     <div class="col-md-9">
@@ -102,15 +104,13 @@
                     </div>
                     <div class="col-md-3">
                         <h4>
-                            <button data-bind='click: addQuote' class="btn btn-default label label-primary" aria-label="Left Align">
+                            <button data-bind='click: $root.addQuote' class="btn btn-default label label-primary" aria-label="Left Align">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add Quote
                             </button>
                         </h4>
                     </div>
                 </div>
-
-                <div data-bind="foreach: newQuotes">
-                    <textarea id="quoteText" data-bind="text: quoteText" rows="3" style="width: 100%; max-width: 100%;"></textarea>
+                    <textarea id="quoteText" data-bind="value: quoteText" rows="3" style="width: 100%; max-width: 100%;"></textarea>
                     <div class="row" style="width: 100%;">
                         <div class="col-md-4">
                             <label>Source:</label><br />
@@ -122,7 +122,7 @@
                         </div>
                         <div class="col-md-4">
                             <label>Paragraph:</label><br />
-                            <input id="quoteParagraph" data-bind="value: para" type="text" style="width: 100%;" />
+                            <input id="quoteParagraph" data-bind="value: paragraph" type="text" style="width: 100%;" />
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                 <td data-bind="text: quoteText" />
                 <td data-bind="text: sourceId" />
                 <td data-bind="text: page" />
-                <td data-bind="text: para" />
+                <td data-bind="text: paragraph" />
                 <td class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></td>
             </tr>
         </tbody>
@@ -205,8 +205,7 @@
             <form>
                 <div class="form-group">
                     <label>Processing Results</label>
-                    <!--input class="form-control" type="text" readonly data-bind="value: result" /-->
-                    <p class="form-control" data-bind="text: result" style="width: 100%; max-width: 100%; max-height: 500px;"><p>
+                    <p class="form-control" data-blind="text: result" style="width: 100%; max-width: 100%; max-height: 500px;"><p>
                 </div>
                 <div class="form-group error-messages" data-bind="foreach: errors">
                     <p data-bind="text: $data" />
@@ -225,14 +224,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Quote</h4>
+                <h4 class="modal-title" data-bind="text: errorText">Error</h4>
             </div>
             <div class="modal-body">
-                <p>Here's a quote&hellip;</p>
+                <p data-bind="text: result" style="width: 100%; max-width: 100%; max-height: 500px;  overflow: auto"><p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

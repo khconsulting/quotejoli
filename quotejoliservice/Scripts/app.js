@@ -5,7 +5,7 @@
 
         self.newPublishers = ko.observableArray([]);
         self.savedPublishers = ko.observableArray([]);
-        self.newQuote = ko.observable({ id: 0, text: "", sourceId: 0, page: 0, paragraph: 0 });
+        self.errorText = ko.observable();
         self.newQuotes = ko.observableArray([]);
         self.savedQuotes = ko.observableArray([]);
         self.authorBool = ko.observable('');
@@ -32,7 +32,6 @@
             }
         */}, self);
 
-            ko.observableArray([]);
         self.result = ko.observable('');
         self.errors = ko.observableArray([]);
         self.searchQuoteBody = ko.observable('');
@@ -70,9 +69,7 @@
             }).fail(showError);
         }
 
-        this.addQuote = function () {
-            window.alert('addQuote');
-            quote = self.newQuotes()[0];
+        this.addQuote = function (quote) {
             ResetErrors();
 
             var data = {
@@ -80,11 +77,10 @@
                 text: quote.quoteText,
                 sourceId: quote.sourceId,
                 page: quote.page,
-                paragraph: quote.paragraph
+                para: quote.paragraph
             };
-
+            self.errorText("Error adding quote");
             // Handle authorization
-//            var headers = getAuthorizeHeader();
             $.ajax({
                 type: 'POST',
                 url: '/api/Quotes',
@@ -93,19 +89,29 @@
                 //,headers: headers
             }).done(function (data) {
                 quote.id = data;
+                self.savedQuotes.push(quote);
+                self.errorText("Success");
                 self.result("Added new quote");
+                $('#quoteModal').modal('show');
+                self.newQuotes.removeAll();
+                self.newQuotes.push({
+                    id: 0,
+                    quoteText: "NEW QUOTE",
+                    sourceId: 0,
+                    page: 0,
+                    paragraph: 0
+                });
             }).fail(showError);
 
-            self.savedQuotes.push(quote);
         }
 
         this.addNewQuote = function () {
             self.newQuotes.push({
                 id: 0,
+                quoteText: "NEW QUOTE",
                 sourceId: 0,
-                quoteText: 'NEW QUOTE',
                 page: 0,
-                para: 0
+                paragraph: 0
             });
         };
 
@@ -129,7 +135,7 @@
                         sourceId: item.sourceId,
                         quoteText: item.text,
                         page: item.page,
-                        para: item.para
+                        paragraph: item.para
                     });
                 });
 
@@ -141,8 +147,10 @@
         function showError(jqXHR) {
             if (jqXHR.responseText) {
                 self.result("Error: " + jqXHR.responseText);
+                $('#quoteModal').modal('show');
                 return;
             }
+
             self.result(jqXHR.status + ': ' + jqXHR.statusText);
 
             var response = jqXHR.responseJSON;
@@ -161,6 +169,8 @@
                 }
                 if (response.error) self.errors.push(response.error);
                 if (response.error_description) self.errors.push(response.error_description);
+
+                $('#quoteModal').modal('show');
             }
         }
 

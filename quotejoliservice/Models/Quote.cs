@@ -18,7 +18,7 @@ namespace quotejoliservice.Models
 
         public int page { get; set; }
 
-        public int? para { get; set; }
+        public int para { get; set; }
 
         public virtual Source Source { get; set; }
     }
