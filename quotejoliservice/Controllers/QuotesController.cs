@@ -10,9 +10,11 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using quotejoliservice.Data;
 using quotejoliservice.Models;
+using System.Runtime.Serialization;
 
 namespace quotejoliservice.Controllers
 {
+    [KnownType(typeof(Source))]
     public class QuotesController : ApiController
     {
         private quotejoliContext db = new quotejoliContext();

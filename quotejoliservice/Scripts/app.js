@@ -8,6 +8,8 @@
         self.errorText = ko.observable();
         self.newQuotes = ko.observableArray([]);
         self.savedQuotes = ko.observableArray([]);
+        self.newSources = ko.observableArray([]);
+        self.Sources = ko.observableArray([]);
         self.authorBool = ko.observable('');
         self.authorNot = ko.observable('');
         self.tagBool = ko.observable('');
@@ -93,6 +95,7 @@
                 self.errorText("Success");
                 self.result("Added new quote");
                 $('#quoteModal').modal('show');
+                resetNewQuotes;/*
                 self.newQuotes.removeAll();
                 self.newQuotes.push({
                     id: 0,
@@ -100,9 +103,73 @@
                     sourceId: 0,
                     page: 0,
                     paragraph: 0
-                });
+                });*/
             }).fail(showError);
 
+        }
+
+        this.addSource = function (source) {
+            ResetErrors();
+
+            var data = {
+                id: 0,
+                text: source.title,
+                year: source.year,
+                yearOriginal: source.yearOriginal,
+                volume: source.volume,
+                edition: source.edition,
+                translator: source.translator
+            };
+            self.errorText("Error adding source");
+/*
+            // Handle authorization
+            $.ajax({
+                type: 'POST',
+                url: '/api/Sources',
+                data: JSON.stringify(data),
+                contentType: "application/json"
+                //,headers: headers
+            }).done(function (data) {
+                source.id = data;
+                self.savedSource.push(source);
+                self.errorText("Success");
+                self.result("Added new source");
+                $('#quoteModal').modal('show');
+                self.resetNewSources();
+            }).fail(showError);
+*/
+            alert("Adding source");
+        }
+
+        this.addPublisher = function (source) {
+            ResetErrors();
+
+            var data = {
+                id: 0,
+                name: source.name,
+                city: source.city,
+                state: source.state,
+                country: source.country
+            };
+            self.errorText("Error adding publisher");
+            /*
+                        // Handle authorization
+                        $.ajax({
+                            type: 'POST',
+                            url: '/api/Publishers',
+                            data: JSON.stringify(data),
+                            contentType: "application/json"
+                            //,headers: headers
+                        }).done(function (data) {
+                            source.id = data;
+                            self.savedSource.push(source);
+                            self.errorText("Success");
+                            self.result("Added new source");
+                            $('#quoteModal').modal('show');
+                            self.resetNewSources();
+                        }).fail(showError);
+            */
+            alert("Adding publisher");
         }
 
         this.addNewQuote = function () {
@@ -113,8 +180,60 @@
                 page: 0,
                 paragraph: 0
             });
+
+            resetNewSources();
         };
 
+        function resetNewQuotes() {
+            self.newQuotes.removeAll();
+
+            self.newQuotes.push({
+                id: 0,
+                quoteText: "NEW QUOTE",
+                sourceId: 0,
+                page: 0,
+                paragraph: 0
+            });
+        }
+
+        function resetNewSources() {
+            self.newSources.removeAll();
+
+            self.newSources.push({
+                id: 0,
+                title: "NEW SOURCE",
+                publisherId: 0,
+                year: 0,
+                yearOriginal: 0,
+                volume: "",
+                edition: 0,
+                translator: ""
+            });
+        }
+
+
+        function resetNewPublishers() {
+            self.newPublishers.removeAll();
+
+            self.newPublishers.push({
+                id: 0,
+                name: "NEW PUBLISHER",
+                city: 0,
+                state: 0,
+                country: "Canada"
+            });
+        }
+
+        this.resetUI = function () {
+            resetNewQuotes();
+            resetNewSources();
+            resetNewPublishers();
+        }
+
+        /**TODO 
+        Put source info other than title into popup
+        Get author list for source
+        **/
         this.getQuotes = function () {
             ResetErrors();
 
@@ -126,6 +245,7 @@
 
             $.ajax({
                 type: 'GET',
+//                url: '/api/Quotes/1'
                 url: '/api/Quotes'
             }).done(function (data) {
                 var fullResults = [];
@@ -135,11 +255,42 @@
                         sourceId: item.sourceId,
                         quoteText: item.text,
                         page: item.page,
-                        paragraph: item.para
+                        paragraph: item.para,
+                        Source: item.Source
                     });
                 });
 
                 self.savedQuotes(fullResults);
+
+            }).fail(showError);
+        }
+
+        this.getSources = function () {
+            ResetErrors();
+
+            // Handle authorization
+            //            var headers = getAuthorizeHeader();
+
+            // Clear list
+            self.Sources([]);
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/Sources'
+            }).done(function (data) {
+                var fullResults = [];
+                $.each(data, function (index, item) {
+                    fullResults.push({
+                        id: item.id,
+                        title: item.title,
+                        year: item.year,
+                        yearOriginal: item.yearOriginal,
+                        publisherId: item.publisherId,
+                        volume: item.volume
+                    });
+                });
+
+                self.Sources(fullResults);
 
             }).fail(showError);
         }
@@ -204,6 +355,8 @@
     app.getQuotes();
     app.getPublishers();
     app.addNewQuote();
+    app.getSources();
+    app.resetUI();
 }
 catch (ex) {
     window.alert("Error: " + ex.message);

@@ -2,8 +2,8 @@
     <h1>quotejoli</h1>
 </div>
 
-<div class="panel-group" id="accordion" data-bind="event: {onload: addNewQuote}">
     <div class="panel panel-default">
+        <!-- SEARCH PANE -->
         <div class="panel-heading">
             <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#accordion" href="#searchPane">
@@ -13,7 +13,6 @@
         </div>
         <div id="searchPane" class="panel-collapse collapse">
             <div class="panel-body">
-                <!-- SEARCH PANE -->
                 <div class="row">
                     <div class="col-md-3">
                         <div>
@@ -83,19 +82,18 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-success">
+        <!-- ADD QUOTE PANE -->
         <div class="panel-heading">
             <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#addPane">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                <a data-toggle="collapse" data-parent="#accordion" href="#addQuotePane">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Quote
                 </a>
             </h4>
         </div>
-        <div id="addPane" class="panel-collapse collapse">
+        <div id="addQuotePane" class="panel-collapse collapse">
             <div class="panel-body">
-
                 <div data-bind="foreach: newQuotes">
-                <!-- ADD PANE -->
                 <div class="row">
                     <div class="col-md-9">
                         <label style="width: 100%;">
@@ -113,7 +111,12 @@
                     <textarea id="quoteText" data-bind="value: quoteText" rows="3" style="width: 100%; max-width: 100%;"></textarea>
                     <div class="row" style="width: 100%;">
                         <div class="col-md-4">
-                            <label>Source:</label><br />
+                            <label>
+                                Source <a data-toggle="collapse" data-parent="#accordion" href="#addSourcePane">
+                                    (<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span> New</span>)
+                                </a>
+                            </label>
+                            <br />
                             <input id="quoteSource" data-bind="value: sourceId" type="text" style="width: 100%;" />
                         </div>
                         <div class="col-md-4">
@@ -126,8 +129,104 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="panel panel-success">
+                    <div id="addSourcePane" class="panel-collapse collapse">
+                        <div class="panel-body">
+
+                            <div data-bind="foreach: newSources">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4>
+                                            <button data-bind='click: $root.addSource' class="btn btn-default label label-primary" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add
+                                            </button>
+                                        </h4>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="width: 100%;">
+                                    <div class="col-md-3">
+                                        <label>Title:</label><br />
+                                        <input id="sourceTitle" data-bind="value: title" type="text" style="width: 100%;" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Year:</label><br />
+                                        <input id="sourceYear" data-bind="value: year" type="text" style="width: 100%;" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Original Year:</label><br />
+                                        <input id="sourceOriginalYear" data-bind="value: yearOriginal" type="text" style="width: 100%;" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Edition:</label><br />
+                                        <input id="sourceEdition" data-bind="value: edition" type="text" style="width: 100%;" />
+                                    </div>
+                                </div>
+                                <div class="row" style="width: 100%;">
+                                    <div class="col-md-4">
+                                        <label>
+                                            Publisher <a data-toggle="collapse" data-parent="#accordion" href="#addPublisherPane">
+                                                (<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span> New</span>)
+                                            </a>
+                                        </label>
+                                        <input id="sourcePublisher" data-bind="value: publisherId" type="text" style="width: 100%;" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Volume:</label><br />
+                                        <input id="sourceVolume" data-bind="value: volume" type="text" style="width: 100%;" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Translator:</label><br />
+                                        <input id="sourceTranslator" data-bind="value: translator" type="text" style="width: 100%;" />
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-success">
+                                    <div id="addPublisherPane" class="panel-collapse collapse">
+                                        <div class="panel-body">
+
+                                            <div data-bind="foreach: newPublishers">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h4>
+                                                            <button data-bind='click: $root.addPublisher' class="btn btn-default label label-primary" aria-label="Left Align">
+                                                                <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add
+                                                            </button>
+                                                        </h4>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="width: 100%;">
+                                                    <div class="col-md-3">
+                                                        <label>Name:</label><br />
+                                                        <input id="publisherName" data-bind="value: name" type="text" style="width: 100%;" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>City:</label><br />
+                                                        <input id="publisherCity" data-bind="value: city" type="text" style="width: 100%;" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>State:</label><br />
+                                                        <input id="publisherState" data-bind="value: state" type="text" style="width: 100%;" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Country:</label><br />
+                                                        <input id="publisherCountry" data-bind="value: country" type="text" style="width: 100%;" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
+
     </div>
 </div>
 
@@ -144,6 +243,7 @@
                 <th>?</th>
                 <th>Quote</th>
                 <th>Source</th>
+                <th>Author</th>
                 <th>Page</th>
                 <th>Paragraph</th>
                 <th>Actions</th>
@@ -154,13 +254,44 @@
             <tr>
                 <td />
                 <td data-bind="text: quoteText" />
-                <td data-bind="text: sourceId" />
+                <td data-bind="text: Source.title" data-toggle="" />
+                <td data-bind="text: Source.title" />
                 <td data-bind="text: page" />
                 <td data-bind="text: paragraph" />
                 <td class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<div class="row">
+    <!-- SOURCES PANE -->
+    <div>
+        <h3>Sources</h3>
+        <div>
+            Filter by name: <input data-blind="value: filter, valueUpdate: 'afterkeydown'" />
+
+            <a href="#" data-bind="click: getSources">Refresh Sources</a>
+        </div>
+        <div>
+            <H4 data-bind="visible: Sources().length == 0">I can't find any sources in the system. You can add one when you add a quote, though.</H4>
+            <table class="table table-responsive" data-bind="visible: Sources().length>0">
+                <thead style="white-space: nowrap; text-align: center;">
+                    <tr><th>Title</th><th>Year</th><th>yearOriginal</th><th>Publisher</th><th>volume</th></tr>
+                </thead>
+
+                <tbody data-bind="foreach: Sources">
+                    <tr>
+                        <td><input data-bind="value: title" /></td>
+                        <td><input data-bind="value: year" /></td>
+                        <td><input data-bind="value: yearOriginal" /></td>
+                        <td></td>
+                        <td><input data-bind="value: volume" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 
@@ -198,6 +329,7 @@
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-4">
         <!-- DEBUG PANE -->
