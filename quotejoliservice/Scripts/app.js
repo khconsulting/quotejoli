@@ -5,11 +5,26 @@
 
         self.newPublishers = ko.observableArray([]);
         self.savedPublishers = ko.observableArray([]);
-        self.errorText = ko.observable();
+
         self.newQuotes = ko.observableArray([]);
         self.savedQuotes = ko.observableArray([]);
+
         self.newSources = ko.observableArray([]);
-        self.Sources = ko.observableArray([]);
+        self.savedSources = ko.observableArray([]);
+        self.FilteredSources = ko.computed(function () {
+            var hasFilter = self.sourceFilter().length > 0;
+            var lowerFilter = self.sourceFilter().toLowerCase();
+            if (!hasFilter) {
+                return self.savedSources();
+            }
+            else {
+                return ko.utils.arrayFilter(self.savedSources(), function (src) {
+                    return ko.utils.stringStartsWith(src.title.toLowerCase(), lowerFilter);
+                });
+            }
+        }, self);
+
+        self.errorText = ko.observable();
         self.authorBool = ko.observable('');
         self.authorNot = ko.observable('');
         self.tagBool = ko.observable('');
@@ -95,15 +110,7 @@
                 self.errorText("Success");
                 self.result("Added new quote");
                 $('#quoteModal').modal('show');
-                resetNewQuotes;/*
-                self.newQuotes.removeAll();
-                self.newQuotes.push({
-                    id: 0,
-                    quoteText: "NEW QUOTE",
-                    sourceId: 0,
-                    page: 0,
-                    paragraph: 0
-                });*/
+                resetNewQuotes;
             }).fail(showError);
 
         }
@@ -272,7 +279,7 @@
             //            var headers = getAuthorizeHeader();
 
             // Clear list
-            self.Sources([]);
+            self.savedSources([]);
 
             $.ajax({
                 type: 'GET',
@@ -290,7 +297,7 @@
                     });
                 });
 
-                self.Sources(fullResults);
+                self.savedSources(fullResults);
 
             }).fail(showError);
         }
