@@ -117,6 +117,7 @@
                                 </a>
                             </label>
                             <br />
+                            <!-- Add typeahead for sources -->
                             <input id="quoteSource" data-bind="value: sourceId" type="text" style="width: 100%;" />
                         </div>
                         <div class="col-md-4">
@@ -131,9 +132,9 @@
                 </div>
 
                 <div class="panel panel-success">
+                    <!-- Add author to sources -->
                     <div id="addSourcePane" class="panel-collapse collapse">
                         <div class="panel-body">
-
                             <div data-bind="foreach: newSources">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -170,6 +171,7 @@
                                                 (<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span> New</span>)
                                             </a>
                                         </label>
+                                        <!-- Add typeahead for publishers -->
                                         <input id="sourcePublisher" data-bind="value: publisherId" type="text" style="width: 100%;" />
                                     </div>
                                     <div class="col-md-4">
@@ -228,7 +230,6 @@
         </div>
 
     </div>
-</div>
 
 <h4 data-bind="visible: (savedQuotes().length == 0)">I can't find any quotes in the system.</h4>
 
@@ -274,13 +275,13 @@
             <a href="#" data-bind="click: getSources">Refresh Sources</a>
         </div>
         <div>
-            <H4 data-bind="visible: Sources().length == 0">I can't find any sources in the system. You can add one when you add a quote, though.</H4>
-            <table class="table table-responsive" data-bind="visible: Sources().length>0">
+            <H4 data-bind="visible: savedSources().length == 0">I can't find any sources in the system. You can add one when you add a quote, though.</H4>
+            <table class="table table-responsive" data-bind="visible: savedSources().length>0">
                 <thead style="white-space: nowrap; text-align: center;">
                     <tr><th>Title</th><th>Year</th><th>yearOriginal</th><th>Publisher</th><th>volume</th></tr>
                 </thead>
 
-                <tbody data-bind="foreach: Sources">
+                <tbody data-bind="foreach: savedSources">
                     <tr>
                         <td><input data-bind="value: title" /></td>
                         <td><input data-bind="value: year" /></td>

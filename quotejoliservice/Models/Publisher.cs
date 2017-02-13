@@ -21,5 +21,7 @@ namespace quotejoliservice.Models
         public string state { get; set; }
 
         public int countryId { get; set; }
+
+        public virtual Country Country { get; set; }
     }
 }
