@@ -192,15 +192,15 @@
             alert("Adding source");
         }
 
-        this.addPublisher = function (source) {
+        this.addPublisher = function (publisher) {
             ResetErrors();
 
             var data = {
                 id: 0,
-                name: source.name,
-                city: source.city,
-                state: source.state,
-                country: source.country
+                name: publisher.name,
+                city: publisher.city,
+                state: publisher.state,
+                country: publisher.country
             };
             self.errorText("Error adding publisher");
             /*
@@ -233,6 +233,34 @@
             });
 
             resetNewSources();
+        };
+
+        this.addAuthor = function (author) {
+            ResetErrors();
+
+            var data = {
+                id: 0,
+                firstName: author.firstName,
+                lastName: author.lastName
+            };
+            self.errorText("Error adding author");
+            
+            $.ajax({
+                type: 'POST',
+                url: '/api/Authors',
+                data: JSON.stringify(data),
+                contentType: "application/json"
+                //,headers: headers
+            }).done(function (data) {
+                source.id = data;
+                self.savedSource.push(source);
+                self.errorText("Success");
+                self.result("Added new source");
+                $('#quoteModal').modal('show');
+                self.resetNewSources();
+            }).fail(showError);
+
+            alert("Adding author");
         };
 
         this.addNewAuthor = function () {

@@ -94,7 +94,7 @@
         </div><!-- Add Quote Pane Heading -->
 
         <div id="addQuotePane" class="panel-collapse collapse"><!-- Add Quote Pane Body -->
-            <div class="panel-body">
+            <div class="panel-body"><!-- Add Quote -->
                 <div data-bind="foreach: newQuotes">
                     <div class="row">
                         <div class="col-md-9">
@@ -175,6 +175,7 @@
                                         <input id="sourceOriginalYear" onfocus="this.select();" data-bind="value: yearOriginal" type="text" style="width: 100%;" />
                                     </div>
                                 </div>
+
                                 <div class="row" style="width: 100%;">
                                     <div class="col-md-3">
                                         <label>
@@ -249,7 +250,7 @@
                                                     <div class="col-md-12">
                                                         <h4>
                                                             <button data-bind='click: $root.addAuthor' class="btn btn-default label label-primary" aria-label="Left Align">
-                                                                <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add
+                                                                <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add Author
                                                             </button>
                                                         </h4>
                                                     </div>
@@ -281,33 +282,33 @@
 
 <h4 data-bind="visible: (savedQuotes().length == 0)">I can't find any quotes in the system.</h4>
 
-<div data-bind="visible: (savedQuotes().length > 0)" class="container-fluid"><!-- QUOTES LIST PANE -->
-    <div data-bind="click: addQuote">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+<div data-bind="visible: (savedQuotes().length > 0)" class="row">
+    <!-- QUOTES LIST PANE -->
+    <h3>Quotes</h3>
+    <div>
+        Filter by name: <input data-blind="value: filter, valueUpdate: 'afterkeydown'" />
+
+        <a href="#" data-bind="click: getSources">Refresh Quotes</a>
     </div>
 
     <table class="table table-responsive">
         <thead style="white-space: nowrap; text-align: center;">
             <tr>
-                <th>?</th>
                 <th>Quote</th>
                 <th>Source</th>
                 <th>Author</th>
                 <th>Page</th>
                 <th>Paragraph</th>
-                <th>Actions</th>
             </tr>
         </thead>
 
         <tbody data-bind="foreach: savedQuotes">
             <tr>
-                <td />
                 <td data-bind="text: quoteText, click: showSource" />
                 <td data-bind="text: Source.title" />
                 <td data-bind="text: Source.title" />
                 <td data-bind="text: page" />
                 <td data-bind="text: paragraph" />
-                <td class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></td>
             </tr>
         </tbody>
     </table>
@@ -325,16 +326,15 @@
             <H4 data-bind="visible: savedSources().length == 0">I can't find any sources in the system. You can add one when you add a quote, though.</H4>
             <table class="table table-responsive" data-bind="visible: savedSources().length>0">
                 <thead style="white-space: nowrap; text-align: center;">
-                    <tr><th>Title</th><th>Year</th><th>yearOriginal</th><th>Publisher</th><th>volume</th></tr>
+                    <tr><th>Title</th><th>Year</th><th>yearOriginal</th><th>Publisher</th><th>Volume</th></tr>
                 </thead>
 
                 <tbody data-bind="foreach: savedSources">
                     <tr>
-                        <td><input data-bind="value: title" /></td>
-                        <td><input data-bind="value: year" /></td>
-                        <td><input data-bind="value: yearOriginal" /></td>
-                        <td></td>
-                        <td><input data-bind="value: volume" /></td>
+                        <td data-bind="text: title"></td>
+                        <td data-bind="text: year"></td>
+                        <td data-bind="text: yearOriginal"></td>
+                        <td data-bind="text: volume"></td>
                     </tr>
                 </tbody>
             </table>
@@ -352,15 +352,15 @@
         </div>
         <div>
             <H4 data-bind="visible: savedAuthors().length == 0">I can't find any authors in the system. You can add one when you add a quote, though.</H4>
-            <table class="table table-responsive" data-bind="visible: savedPublishers().length>0">
+            <table class="table table-responsive" data-bind="visible: savedAuthors().length > 0">
                 <thead style="white-space: nowrap; text-align: center;">
                     <tr><th>First Name</th><th>Last Name</th></tr>
                 </thead>
 
                 <tbody data-bind="foreach: savedAuthors">
                     <tr>
-                        <td><input data-bind="value: firstName" /></td>
-                        <td><input data-bind="value: lastName" /></td>
+                        <td data-bind="text: firstName"></td>
+                        <td data-bind="text: lastName"></td>
                     </tr>
                 </tbody>
             </table>
@@ -380,21 +380,21 @@
             <H4 data-bind="visible: savedPublishers().length == 0">I can't find any publishers in the system. You can add one when you add a quote, though.</H4>
             <table class="table table-responsive" data-bind="visible: savedPublishers().length>0">
                 <thead style="white-space: nowrap; text-align: center;">
-                    <tr><th>Name</th><th>City</th><th>State</th><th>Country ID</th><th>Actions</th></tr>
+                    <tr><th>Name</th><th>City</th><th>State</th><th>Country ID</th><!--th>Actions</th--></tr>
                 </thead>
 
                 <tbody data-bind="foreach: savedPublishers">
                     <tr>
-                        <td><input data-bind="value: name" /></td>
-                        <td><input data-bind="value: city" /></td>
-                        <td><input data-bind="value: state" /></td>
-                        <td><input data-bind="value: countryId" /></td>
-                        <td>
+                        <td data-bind="text: name"></td>
+                        <td data-bind="text: city"></td>
+                        <td data-bind="text: state"></td>
+                        <td data-bind="text: countryId"></td>
+                        <!--td>
                             <div>
                                 <a href="#" data-bind="confirmClick: { message: 'Are you sure you want to Add/Update this timezone?', click: $root.updateTimezone }">Update</a>
                                 <a href="#" data-bind="confirmClick: { message: 'Are you sure you want to DELETE this timezone?', click: $root.removeTimezone }">Delete</a>
                             </div>
-                        </td>
+                        </td-->
                     </tr>
                 </tbody>
             </table>
