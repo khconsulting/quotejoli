@@ -2,15 +2,16 @@
     var tokenKey = 'accessToken';
 
     function ViewModel() {
-
-        self.newPublishers = ko.observableArray([]);
-        self.savedPublishers = ko.observableArray([]);
-
+        /*===== Quote objects ====*/
         self.newQuotes = ko.observableArray([]);
         self.savedQuotes = ko.observableArray([]);
 
+        /*===== Source objects ====*/
+        self.selectedSource = ko.observable();
         self.newSources = ko.observableArray([]);
         self.savedSources = ko.observableArray([]);
+        self.savedSourceTitles = ko.observableArray([]);
+        self.sourceFilter = ko.observable('');
         self.FilteredSources = ko.computed(function () {
             var hasFilter = self.sourceFilter().length > 0;
             var lowerFilter = self.sourceFilter().toLowerCase();
@@ -24,11 +25,23 @@
             }
         }, self);
 
-        self.errorText = ko.observable();
+        /*===== Publisher objects ====*/
+        self.selectedPublisher = ko.observable();
+        self.newPublishers = ko.observableArray([]);
+        self.savedPublishers = ko.observableArray([]);
+
+        /*===== Author objects ====*/
+        self.selectedAuthor = ko.observable();
+        self.savedAuthors = ko.observableArray([]);
+        self.newAuthors = ko.observableArray([]);
         self.authorBool = ko.observable('');
         self.authorNot = ko.observable('');
+
+        /*===== Tag objects ====*/
         self.tagBool = ko.observable('');
         self.tagNot = ko.observable('');
+
+        self.errorText = ko.observable();
         self.titleBool = ko.observable('');
         self.titleNot = ko.observable('');
         self.quoteBool = ko.observable('');
@@ -82,6 +95,37 @@
                     });
                 });
                 self.savedPublishers(fullResults);
+
+            }).fail(showError);
+        }
+
+        this.getAuthors = function () {
+            resetNewAuthors();
+            ResetErrors();
+            // Handle authorization
+            //            var headers = getAuthorizeHeader();
+
+            // Clear list
+            self.savedAuthors([]);
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/Authors'
+            }).done(function (data) {
+                var results = [];
+                var fullResults = [];
+
+                $.each(data, function (index, item) {
+                    results.push(item.name);
+                    fullResults.push({
+                        id: item.id,
+                        firstName: item.firstName,
+                        lastName: item.lastName,
+                        fullName: item.lastName + ', ' + item.firstName
+                    });
+                });
+
+                self.savedAuthors(fullResults);
 
             }).fail(showError);
         }
@@ -191,6 +235,16 @@
             resetNewSources();
         };
 
+        this.addNewAuthor = function () {
+            self.newAuthors.push({
+                id: 0,
+                firstName: "AUTHOR FIRST NAME",
+                lastName: "AUTHOR LAST NAME",
+            });
+            alert('Add Author');
+//            resetNewAuthors();
+        };
+
         function resetNewQuotes() {
             self.newQuotes.removeAll();
 
@@ -215,6 +269,16 @@
                 volume: "",
                 edition: 0,
                 translator: ""
+            });
+        }
+
+        function resetNewAuthors() {
+            self.newAuthors.removeAll();
+
+            self.newAuthors.push({
+                id: 0,
+                firstName: "AUTHOR FIRST NAME",
+                lastName: "AUTHOR LAST NAME",
             });
         }
 
@@ -337,6 +401,9 @@
             self.errors.removeAll();
         }
 
+        function showSource(data, event) {
+            window.alert("Show source");
+        }
    }
 
     var app = new ViewModel();
@@ -361,6 +428,7 @@
 
     app.getQuotes();
     app.getPublishers();
+    app.getAuthors();
     app.addNewQuote();
     app.getSources();
     app.resetUI();
