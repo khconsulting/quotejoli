@@ -118,9 +118,9 @@
                             </label>
                             <br />
                             <!-- Add typeahead for sources -->
-                            <select data-bind="options: savedSources,
+                            <select data-bind="options: app.savedSources,
                                                 optionsText: 'title',
-                                                value: selectedSource,
+                                                value: app.selectedSource,
                                                 optionsCaption: 'Choose...'"></select>
                             <!--input id="quoteSource" data-bind="value: sourceId" type="text" style="width: 100%;" /-->
                         </div><!-- Choose Source -->
@@ -161,9 +161,9 @@
                                             </a>
                                         </label>
                                         <br />                                        
-                                        <select data-bind="options: savedAuthors,
+                                        <select data-bind="options: app.savedAuthors,
                                                optionsText: 'fullName',
-                                               value: selectedAuthor,
+                                               value: app.selectedAuthor,
                                                optionsCaption: 'Choose...'"></select>
                                     </div>
                                     <div class="col-md-3">
@@ -185,9 +185,9 @@
                                         </label>
                                         <br />
                                         <!-- Add typeahead for publishers -->
-                                        <select data-bind="options: savedPublishers,
+                                        <select data-bind="options: app.savedPublishers,
                                                optionsText: 'name',
-                                               value: selectedPublisher,
+                                               value: app.selectedPublisher,
                                                optionsCaption: 'Choose...'"></select>
                                         <!--input id="sourcePublisher" data-bind="value: publisherId" type="text" style="width: 100%;" /-->
                                     </div>
@@ -208,7 +208,7 @@
                                 <div class="panel panel-success">
                                     <div id="addPublisherPane" class="panel-collapse collapse">
                                         <div class="panel-body">
-                                            <div data-bind="foreach: newPublishers">
+                                            <div data-bind="foreach: app.newPublishers">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <h4>
@@ -245,7 +245,7 @@
                                 <div class="panel panel-success">
                                     <div id="addAuthorPane" class="panel-collapse collapse">
                                         <div class="panel-body">
-                                            <div data-bind="foreach: newAuthors">
+                                            <div data-bind="foreach: app.newAuthors">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <h4>

@@ -2,6 +2,8 @@
     var tokenKey = 'accessToken';
 
     function ViewModel() {
+        var self = this;
+
         /*===== Quote objects ====*/
         self.newQuotes = ko.observableArray([]);
         self.savedQuotes = ko.observableArray([]);
@@ -100,6 +102,7 @@
         }
 
         this.getAuthors = function () {
+            alert('Get Authors');
             resetNewAuthors();
             ResetErrors();
             // Handle authorization
@@ -172,7 +175,7 @@
                 translator: source.translator
             };
             self.errorText("Error adding source");
-/*
+
             // Handle authorization
             $.ajax({
                 type: 'POST',
@@ -188,7 +191,7 @@
                 $('#quoteModal').modal('show');
                 self.resetNewSources();
             }).fail(showError);
-*/
+
             alert("Adding source");
         }
 
@@ -200,26 +203,24 @@
                 name: publisher.name,
                 city: publisher.city,
                 state: publisher.state,
-                country: publisher.country
+                countryId: publisher.country
             };
+            window.alert(data.country);
             self.errorText("Error adding publisher");
-            /*
                         // Handle authorization
-                        $.ajax({
-                            type: 'POST',
-                            url: '/api/Publishers',
-                            data: JSON.stringify(data),
-                            contentType: "application/json"
-                            //,headers: headers
-                        }).done(function (data) {
-                            source.id = data;
-                            self.savedSource.push(source);
-                            self.errorText("Success");
-                            self.result("Added new source");
-                            $('#quoteModal').modal('show');
-                            self.resetNewSources();
-                        }).fail(showError);
-            */
+            $.ajax({
+                type: 'POST',
+                url: '/api/Publishers',
+                data: JSON.stringify(data),
+                contentType: "application/json"
+                //,headers: headers
+            }).done(function (data) {
+                publisher.id = data;
+                self.errorText("Success");
+                self.result("Added new Publisher");
+                $('#quoteModal').modal('show');
+            }).fail(showError);
+            
             alert("Adding publisher");
         }
 
@@ -252,15 +253,12 @@
                 contentType: "application/json"
                 //,headers: headers
             }).done(function (data) {
-                source.id = data;
-                self.savedSource.push(source);
+                author.id = data;
                 self.errorText("Success");
-                self.result("Added new source");
+                self.result("Added new author");
                 $('#quoteModal').modal('show');
-                self.resetNewSources();
+               self.getAuthors();
             }).fail(showError);
-
-            alert("Adding author");
         };
 
         this.addNewAuthor = function () {
@@ -309,7 +307,6 @@
                 lastName: "AUTHOR LAST NAME",
             });
         }
-
 
         function resetNewPublishers() {
             self.newPublishers.removeAll();
