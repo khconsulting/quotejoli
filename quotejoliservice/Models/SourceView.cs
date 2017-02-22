@@ -68,11 +68,6 @@ namespace quotejoliservice.Models
                 .Property(e => e.CCTLD)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Country>()
-                .HasMany(e => e.Publishers)
-                .WithRequired(e => e.Country)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Publisher>()
                 .Property(e => e.name)
                 .IsUnicode(false);

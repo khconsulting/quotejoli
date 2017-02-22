@@ -9,12 +9,6 @@ namespace quotejoliservice.Models
     [Table("Country")]
     public partial class Country
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Country()
-        {
-            Publishers = new HashSet<Publisher>();
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
@@ -43,8 +37,5 @@ namespace quotejoliservice.Models
 
         [StringLength(5)]
         public string CCTLD { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Publisher> Publishers { get; set; }
     }
 }
