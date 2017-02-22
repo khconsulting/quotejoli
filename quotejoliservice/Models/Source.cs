@@ -29,6 +29,8 @@ namespace quotejoliservice.Models
 
         public int publisherId { get; set; }
 
+        public virtual Publisher Publisher { get; set; }
+
         [StringLength(10)]
         public string volume { get; set; }
 

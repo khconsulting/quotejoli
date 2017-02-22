@@ -413,6 +413,7 @@
                         year: item.year,
                         yearOriginal: item.yearOriginal,
                         publisherId: item.publisherId,
+                        publisher: item.Publisher.name,
                         volume: item.volume
                     });
                 });

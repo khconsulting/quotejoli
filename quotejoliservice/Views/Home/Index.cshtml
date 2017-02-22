@@ -83,19 +83,16 @@
 </div><!-- SEARCH PANE -->
     
 <div class="panel panel-success"><!-- ADD QUOTE PANE -->
-    <div class="panel-heading">
-        <!-- Add Quote Pane Heading -->
+    <div class="panel-heading"><!-- ADD QUOTE PANE HEADING -->
         <h4 class="panel-title">
             <a data-toggle="collapse" data-parent="#accordion" href="#addQuotePane">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Quote
             </a>
         </h4>
-    </div><!-- Add Quote Pane Heading -->
+    </div><!-- ADD QUOTE PANE HEADING -->
 
-    <div id="addQuotePane" class="panel-collapse collapse">
-        <!-- Add Quote Pane Body -->
-        <div class="panel-body">
-            <!-- Add Quote -->
+    <div id="addQuotePane" class="panel-collapse collapse"><!-- ADD QUOTE PANE BODY -->
+        <div class="panel-body"><!-- ADD QUOTE -->
             <div data-bind="foreach: newQuotes">
                 <div class="row">
                     <div class="col-md-9">
@@ -155,23 +152,19 @@
                                     <label>Title:</label><br />
                                     <input id="sourceTitle" onfocus="this.select();" data-bind="value: title" type="text" style="width: 100%;" />
                                 </div>
-                                <div class="col-md-3">
-                                    <label>
-                                        Author <a data-toggle="collapse" data-parent="#accordion" href="#addAuthorPane">
-                                            (<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span> New</span>)
-                                        </a>
-                                    </label>
+                                <div class="col-md-5">
+                                    <label>Author:</label>
                                     <br />
                                     <select data-bind="options: app.savedAuthors,
                                                optionsText: 'fullName',
                                                value: app.selectedAuthor,
                                                optionsCaption: 'Choose...'"></select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>Year:</label><br />
                                     <input id="sourceYear" onfocus="this.select();" data-bind="value: year" type="text" style="width: 100%;" />
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>Original Year:</label><br />
                                     <input id="sourceOriginalYear" onfocus="this.select();" data-bind="value: yearOriginal" type="text" style="width: 100%;" />
                                 </div>
@@ -179,11 +172,7 @@
 
                             <div class="row" style="width: 100%;">
                                 <div class="col-md-3">
-                                    <label>
-                                        Publisher <a data-toggle="collapse" data-parent="#accordion" href="#addPublisherPane">
-                                            (<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span> New</span>)
-                                        </a>
-                                    </label>
+                                    <label>Publisher:</label>
                                     <br />
                                     <!-- Add typeahead for publishers -->
                                     <select data-bind="options: app.savedPublishers,
@@ -239,11 +228,11 @@
                                                                 <label>City:</label><br />
                                                                 <input id="publisherCity" onfocus="this.select();" data-bind="value: city" type="text" style="width: 100%;" />
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-2">
                                                                 <label>State:</label><br />
                                                                 <input id="publisherState" onfocus="this.select();" data-bind="value: state" type="text" style="width: 100%;" />
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <label>Country: <span data-bind="text: $root.selectedCountry()"></span></label><br />
                                                                 <select data-bind="options: $root.countries,
                                                                                    optionsText: 'name',
@@ -299,8 +288,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div><!-- Add Quote Pane Body -->
+        </div><!-- ADD QUOTE -->
+    </div><!-- ADD QUOTE PANE BODY -->
 </div><!-- ADD QUOTE PANE -->
 
 <div class="panel-group" id="ListAccordion"><!-- LIST ACCORDION -->
@@ -380,7 +369,7 @@
                             <td data-bind="text: title"></td>
                             <td data-bind="text: year"></td>
                             <td data-bind="text: yearOriginal"></td>
-                            <!--td data-bind="text: publisher"></td-->
+                            <td data-bind="text: publisher"></td>
                             <td data-bind="text: volume"></td>
                         </tr>
                     </tbody>
