@@ -47,6 +47,7 @@
         self.countries = ko.observableArray([]);
         self.selectedCountry = ko.observable();
 
+        self.debug = ko.observable(true);
         self.errorText = ko.observable();
         self.titleBool = ko.observable('');
         self.titleNot = ko.observable('');
@@ -414,6 +415,7 @@
                         yearOriginal: item.yearOriginal,
                         publisherId: item.publisherId,
                         publisher: item.Publisher.name,
+                        authors: item.AuthorNames,
                         volume: item.volume
                     });
                 });
@@ -421,6 +423,24 @@
                 self.savedSources(fullResults);
 
             }).fail(showError);
+        }
+
+        function combineAuthors(authors)
+        {
+            try {
+                var s = '';
+                foreach( a in authors)
+                {
+                    s += (s.length > 0 ? ', ' : '') + a.fullName;
+                }
+                alert(s);
+                return s;
+            }
+            catch(ex)
+            {
+                alert("Combine: " + ex.message);
+            }
+            return "Nope";
         }
 
         function showError(jqXHR) {

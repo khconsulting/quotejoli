@@ -292,7 +292,7 @@
     </div><!-- ADD QUOTE PANE BODY -->
 </div><!-- ADD QUOTE PANE -->
 
-<div class="panel-group" id="ListAccordion"><!-- LIST ACCORDION -->
+<div class="panel-group" id="ListAccordion" data-bind="visible: debug"><!-- LIST ACCORDION -->
     <div class="panel panel-success"><!-- QUOTES LIST PANE -->
         <div class="panel-heading">
             <h4 class="panel-title">
@@ -361,12 +361,20 @@
 
                 <table class="table table-responsive">
                     <thead style="white-space: nowrap; text-align: center;">
-                        <tr><th>Title</th><th>Year</th><th>yearOriginal</th><th>Publisher</th><th>Volume</th></tr>
+                        <tr>
+                            <th>Title</th>
+                            <th>Authors</th>
+                            <th>Year</th>
+                            <th>yearOriginal</th>
+                            <th>Publisher</th>
+                            <th>Volume</th>
+                        </tr>
                     </thead>
 
                     <tbody data-bind="foreach: savedSources">
                         <tr>
                             <td data-bind="text: title"></td>
+                            <td data-bind="text: authors"></td>
                             <td data-bind="text: year"></td>
                             <td data-bind="text: yearOriginal"></td>
                             <td data-bind="text: publisher"></td>

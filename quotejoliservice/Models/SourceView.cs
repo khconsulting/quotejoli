@@ -30,7 +30,7 @@ namespace quotejoliservice.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Author>()
-                .HasMany(e => e.SourceAuthors)
+                .HasMany(e => e.Sources)
                 .WithRequired(e => e.Author)
                 .WillCascadeOnDelete(false);
 
@@ -93,7 +93,7 @@ namespace quotejoliservice.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Source>()
-                .HasMany(e => e.SourceAuthors)
+                .HasMany(e => e.Authors)
                 .WithRequired(e => e.Source)
                 .WillCascadeOnDelete(false);
         }

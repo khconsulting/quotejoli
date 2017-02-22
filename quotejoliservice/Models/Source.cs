@@ -12,7 +12,6 @@ namespace quotejoliservice.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Source()
         {
-            SourceAuthors = new HashSet<SourceAuthor>();
         }
 
         public int id { get; set; }
@@ -38,7 +37,23 @@ namespace quotejoliservice.Models
 
         public string translator { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SourceAuthor> SourceAuthors { get; set; }
+        public virtual ICollection<SourceAuthor> Authors { get; set; }
+
+        public string AuthorNames {
+            get
+            {
+                string s = "";
+                string startFormat = "{1}, {2}";
+                string listFormat = "{0}; {1}, {2}";
+                string format = startFormat;
+
+                foreach(var a in Authors)
+                {
+                    format = (s.Length == 0) ? startFormat : listFormat;
+                    s = String.Format(format, s, a.Author.lastName, a.Author.firstName);
+                }
+                return s;
+            }
+        }
     }
 }
