@@ -17,5 +17,7 @@ namespace quotejoliservice.Data
         public System.Data.Entity.DbSet<quotejoliservice.Models.Quote> Quotes { get; set; }
 
         public System.Data.Entity.DbSet<quotejoliservice.Models.Author> Authors { get; set; }
+
+        public System.Data.Entity.DbSet<quotejoliservice.Models.Country> Countries { get; set; }
     }
 }
