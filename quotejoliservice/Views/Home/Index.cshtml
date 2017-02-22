@@ -206,77 +206,99 @@
                                 </div>
                             </div>
 
-                            <div class="panel panel-success">
-                                <div id="addPublisherPane" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <div data-bind="foreach: app.newPublishers">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <h4>
-                                                        <button data-bind='click: $root.addPublisher' class="btn btn-default label label-primary" aria-label="Left Align">
-                                                            <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add
-                                                        </button>
-                                                    </h4>
-                                                </div>
-                                            </div><!-- Add Publisher -->
+                            <div class="row" style="width: 100%;">
+                                <div class="col-md-12">
+                                    <div class="panel-group" id="accordionSourceProps">
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordionSourceProps" href="#addPublisherCollapse">
+                                                        Add Publisher
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="addPublisherCollapse" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <div data-bind="foreach: app.newPublishers">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h4>
+                                                                    <button data-bind='click: $root.addPublisher' class="btn btn-default label label-primary" aria-label="Left Align">
+                                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add
+                                                                    </button>
+                                                                </h4>
+                                                            </div>
+                                                        </div><!-- Add Publisher -->
 
-                                            <div class="row" style="width: 100%;">
-                                                <div class="col-md-3">
-                                                    <label>Name:</label><br />
-                                                    <input id="publisherName" onfocus="this.select();" data-bind="value: name" type="text" style="width: 100%;" />
+                                                        <div class="row" style="width: 100%;">
+                                                            <div class="col-md-3">
+                                                                <label>Name:</label><br />
+                                                                <input id="publisherName" onfocus="this.select();" data-bind="value: name" type="text" style="width: 100%;" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>City:</label><br />
+                                                                <input id="publisherCity" onfocus="this.select();" data-bind="value: city" type="text" style="width: 100%;" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>State:</label><br />
+                                                                <input id="publisherState" onfocus="this.select();" data-bind="value: state" type="text" style="width: 100%;" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>Country: <span data-bind="text: $root.selectedCountry()"></span></label><br />
+                                                                <select data-bind="options: $root.countries,
+                                                                                   optionsText: 'name',
+                                                                                   optionsValue: 'id',
+                                                                                   value: $root.selectedCountry,
+                                                                                   optionsCaption: 'Choose..'"></select>
+                                                            </div>
+                                                        </div><!-- Set Publisher properties-->
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>City:</label><br />
-                                                    <input id="publisherCity" onfocus="this.select();" data-bind="value: city" type="text" style="width: 100%;" />
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordionSourceProps" href="#addAuthorCollapse">
+                                                        Add Author
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="addAuthorCollapse" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <div data-bind="foreach: app.newAuthors">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h4>
+                                                                    <button data-bind='click: $root.addAuthor' class="btn btn-default label label-primary" aria-label="Left Align">
+                                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add Author
+                                                                    </button>
+                                                                </h4>
+                                                            </div>
+                                                        </div><!-- Add Author -->
+
+                                                        <div class="row" style="width: 100%;">
+                                                            <div class="col-md-3">
+                                                                <label>Last Name:</label><br />
+                                                                <input id="authorLastName" onfocus="this.select();" data-bind="value: lastName" type="text" style="width: 100%;" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>First Name:</label><br />
+                                                                <input id="authorFirstName" onfocus="this.select();" data-bind="value: firstName" type="text" style="width: 100%;" />
+                                                            </div>
+                                                        </div><!-- Set Author properties-->
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label>State:</label><br />
-                                                    <input id="publisherState" onfocus="this.select();" data-bind="value: state" type="text" style="width: 100%;" />
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label>Country:</label><br />
-                                                    <input id="publisherCountry" onfocus="this.select();" data-bind="value: country" type="text" style="width: 100%;" />
-                                                </div>
-                                            </div><!-- Set Publisher properties-->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div><!-- ADD PUBLISHER -->
-
-                            <div class="panel panel-success">
-                                <div id="addAuthorPane" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <div data-bind="foreach: app.newAuthors">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <h4>
-                                                        <button data-bind='click: $root.addAuthor' class="btn btn-default label label-primary" aria-label="Left Align">
-                                                            <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add Author
-                                                        </button>
-                                                    </h4>
-                                                </div>
-                                            </div><!-- Add Author -->
-
-                                            <div class="row" style="width: 100%;">
-                                                <div class="col-md-3">
-                                                    <label>Last Name:</label><br />
-                                                    <input id="authorLastName" onfocus="this.select();" data-bind="value: lastName" type="text" style="width: 100%;" />
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label>First Name:</label><br />
-                                                    <input id="authorFirstName" onfocus="this.select();" data-bind="value: firstName" type="text" style="width: 100%;" />
-                                                </div>
-                                            </div><!-- Set Author properties-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- ADD AUTHOR -->
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div><!-- Add Quote Pane Body -->
 </div><!-- ADD QUOTE PANE -->
@@ -358,6 +380,7 @@
                             <td data-bind="text: title"></td>
                             <td data-bind="text: year"></td>
                             <td data-bind="text: yearOriginal"></td>
+                            <!--td data-bind="text: publisher"></td-->
                             <td data-bind="text: volume"></td>
                         </tr>
                     </tbody>
@@ -365,6 +388,45 @@
             </div>
         </div>
     </div><!-- SOURCES LIST PANE -->
+
+    <div class="panel panel-success"><!-- PUBLISHERS LIST PANE -->
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#ListAccordion" href="#publisherCollapse">
+                    Publishers
+                </a>
+            </h4>
+        </div>
+
+        <div id="publisherCollapse" class="panel-collapse collapse">
+            <div data-bind="visible: (savedPublishers().length == 0)" class="panel-body">
+                <h4>I can't find any publishers in the system.</h4>
+            </div>
+
+            <div data-bind="visible: (savedPublishers().length > 0)" class="panel-body row">
+                <div>
+                    Filter by name: <input data-blind="value: filter, valueUpdate: 'afterkeydown'" />
+
+                    <a href="#" data-bind="click: getPublishers">Refresh Publishers</a>
+                </div>
+
+                <table class="table table-responsive">
+                    <thead style="white-space: nowrap; text-align: center;">
+                        <tr><th>Name</th><th>City</th><th>State</th><th>Country</th></tr>
+                    </thead>
+
+                    <tbody data-bind="foreach: savedPublishers">
+                        <tr>
+                            <td data-bind="text: name"></td>
+                            <td data-bind="text: city"></td>
+                            <td data-bind="text: state"></td>
+                            <td data-bind="text: countryName"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><!-- PUBLISHERS LIST PANE -->
 
     <div class="panel panel-success"><!-- AUTHORS LIST PANE -->
         <div class="panel-heading">
@@ -402,6 +464,43 @@
             </div>
         </div>
     </div><!-- AUTHORS LIST PANE -->
+
+    <div class="panel panel-success"><!-- COUNTRIES LIST PANE -->
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#ListAccordion" href="#countryCollapse">
+                    Countries
+                </a>
+            </h4>
+        </div>
+
+        <div id="countryCollapse" class="panel-collapse collapse">
+            <div data-bind="visible: (countries().length == 0)" class="panel-body">
+                <h4>I can't find any authors in the system.</h4>
+            </div>
+
+            <div data-bind="visible: (countries().length > 0)" class="panel-body row">
+                <div>
+                    Filter by name: <input data-blind="value: filter, valueUpdate: 'afterkeydown'" />
+
+                    <a href="#" data-bind="click: getCountries">Refresh Countries</a>
+                </div>
+
+                <table class="table table-responsive" data-bind="visible: countries().length > 0">
+                    <thead style="white-space: nowrap; text-align: center;">
+                        <tr><th>ID</th><th>Name</th></tr>
+                    </thead>
+
+                    <tbody data-bind="foreach: countries">
+                        <tr>
+                            <td data-bind="text: id"></td>
+                            <td data-bind="text: name"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><!-- COUNTRIES LIST PANE -->
 </div><!-- LIST ACCORDION -->
 
 <div class="row"><!-- DEBUG PANE -->

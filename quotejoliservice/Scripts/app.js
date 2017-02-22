@@ -43,6 +43,10 @@
         self.tagBool = ko.observable('');
         self.tagNot = ko.observable('');
 
+        /*===== Country objects ====*/
+        self.countries = ko.observableArray([]);
+        self.selectedCountry = ko.observable();
+
         self.errorText = ko.observable();
         self.titleBool = ko.observable('');
         self.titleNot = ko.observable('');
@@ -93,7 +97,8 @@
                         name: item.name,
                         city: item.city,
                         state: item.state,
-                        countryId: item.countryId
+                        countryId: item.countryId,
+                        countryName: item.Country.CountryName
                     });
                 });
                 self.savedPublishers(fullResults);
@@ -101,8 +106,29 @@
             }).fail(showError);
         }
 
+        this.getCountries = function () {
+            // Clear list
+            self.countries([]);
+            
+            $.ajax({
+                type: 'GET',
+                url: '/api/Countries'
+            }).done(function (data) {
+                var fullResults = [];
+
+                $.each(data, function (index, item) {
+                    fullResults.push({
+                        id: item.id,
+                        name: item.CountryName
+                    });
+                    self.errorText("Success");
+                });
+
+                self.countries(fullResults);
+            }).fail(showError);
+        }
+
         this.getAuthors = function () {
-            alert('Get Authors');
             resetNewAuthors();
             ResetErrors();
             // Handle authorization
@@ -117,9 +143,8 @@
             }).done(function (data) {
                 var results = [];
                 var fullResults = [];
-
+                
                 $.each(data, function (index, item) {
-                    results.push(item.name);
                     fullResults.push({
                         id: item.id,
                         firstName: item.firstName,
@@ -165,13 +190,16 @@
         this.addSource = function (source) {
             ResetErrors();
 
+            //==== TODO: FIGURE OUT HOW TO GET Publisher ID AND Author ID DURING ADD ====//
             var data = {
                 id: 0,
-                text: source.title,
+                title: source.title,
                 year: source.year,
                 yearOriginal: source.yearOriginal,
                 volume: source.volume,
+                publisherId: source.publisherId,
                 edition: source.edition,
+                authorId: source.author,
                 translator: source.translator
             };
             self.errorText("Error adding source");
@@ -189,7 +217,8 @@
                 self.errorText("Success");
                 self.result("Added new source");
                 $('#quoteModal').modal('show');
-                self.resetNewSources();
+                self.getSources();
+                self.newSources([]);
             }).fail(showError);
 
             alert("Adding source");
@@ -202,10 +231,9 @@
                 id: 0,
                 name: publisher.name,
                 city: publisher.city,
-                state: publisher.state,
-                countryId: publisher.country
+                state: (publisher.state=='' || publisher.state == null) ? 'NONE': publisher.state,
+                countryId: self.selectedCountry()
             };
-            window.alert(data.country);
             self.errorText("Error adding publisher");
                         // Handle authorization
             $.ajax({
@@ -219,9 +247,10 @@
                 self.errorText("Success");
                 self.result("Added new Publisher");
                 $('#quoteModal').modal('show');
+                self.getPublishers();
+                self.newPublishers([]);
             }).fail(showError);
             
-            alert("Adding publisher");
         }
 
         this.addNewQuote = function () {
@@ -257,7 +286,9 @@
                 self.errorText("Success");
                 self.result("Added new author");
                 $('#quoteModal').modal('show');
-               self.getAuthors();
+                $('addAuthorPane').collapse();
+                self.getAuthors();
+                self.newAuthors([]);
             }).fail(showError);
         };
 
@@ -454,6 +485,7 @@
     app.getQuotes();
     app.getPublishers();
     app.getAuthors();
+    app.getCountries();
     app.addNewQuote();
     app.getSources();
     app.resetUI();
