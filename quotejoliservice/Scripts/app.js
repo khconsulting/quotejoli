@@ -28,11 +28,12 @@
         }, self);
 
         /*===== Publisher objects ====*/
-        self.selectedPublisher = ko.observable();
+        self.selectedPublisher = ko.observable(3);
         self.newPublishers = ko.observableArray([]);
         self.savedPublishers = ko.observableArray([]);
 
         /*===== Author objects ====*/
+        self.selectedAuthors = ko.observableArray([]);
         self.selectedAuthor = ko.observable();
         self.savedAuthors = ko.observableArray([]);
         self.newAuthors = ko.observableArray([]);
@@ -191,17 +192,18 @@
         this.addSource = function (source) {
             ResetErrors();
 
-            //==== TODO: FIGURE OUT HOW TO GET Publisher ID AND Author ID DURING ADD ====//
             var data = {
                 id: 0,
                 title: source.title,
                 year: source.year,
                 yearOriginal: source.yearOriginal,
                 volume: source.volume,
-                publisherId: source.publisherId,
+                publisherId: app.selectedPublisher(),
+                authorId: app.selectedAuthor(),
                 edition: source.edition,
-                authorId: source.author,
-                translator: source.translator
+                Authors: [{ authorId: app.selectedAuthor() }, { authorId: 1 }],
+                translator: source.translator,
+                isbn: source.ISBN
             };
             self.errorText("Error adding source");
 
@@ -214,17 +216,26 @@
                 //,headers: headers
             }).done(function (data) {
                 source.id = data;
-                self.savedSource.push(source);
+//                self.savedSource.push(source);
                 self.errorText("Success");
                 self.result("Added new source");
                 $('#quoteModal').modal('show');
                 self.getSources();
-                self.newSources([]);
+                self.resetNewSources();
             }).fail(showError);
 
             alert("Adding source");
         }
 
+        findAuthor = function (findId) {
+            alert('Find');
+            for (var i = 0, len = savedAuthors.length; i < len; i++) {
+                if (savedAuthors[i].id === findId)
+                    return savedAuthors[i]; // Return as soon as the object is found
+            }
+            return null; // The object was not found
+        }
+        
         this.addPublisher = function (publisher) {
             ResetErrors();
 
@@ -326,7 +337,8 @@
                 yearOriginal: 0,
                 volume: "",
                 edition: 0,
-                translator: ""
+                translator: "",
+                ISBN: ""
             });
         }
 
@@ -415,8 +427,11 @@
                         yearOriginal: item.yearOriginal,
                         publisherId: item.publisherId,
                         publisher: item.Publisher.name,
+                        volume: item.volume,
+                        edition: item.edition,
+                        translator: item.translator,
+                        ISBN: item.isbn,
                         authors: item.AuthorNames,
-                        volume: item.volume
                     });
                 });
 

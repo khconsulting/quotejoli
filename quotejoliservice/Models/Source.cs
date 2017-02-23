@@ -37,20 +37,36 @@ namespace quotejoliservice.Models
 
         public string translator { get; set; }
 
+        [StringLength(20)]
+        public string isbn { get; set; }
+
+        [Required(ErrorMessage = "Please select a list of authors for this source")]
         public virtual ICollection<SourceAuthor> Authors { get; set; }
 
         public string AuthorNames {
             get
             {
-                string s = "";
-                string startFormat = "{1}, {2}";
-                string listFormat = "{0}; {1}, {2}";
-                string format = startFormat;
-
-                foreach(var a in Authors)
+                if (Authors == null)
                 {
-                    format = (s.Length == 0) ? startFormat : listFormat;
-                    s = String.Format(format, s, a.Author.lastName, a.Author.firstName);
+                    return "";
+                }
+
+                const string START_FORMAT = "{1}";
+                const string LIST_FORMAT = "{0}; {1}";
+
+
+                string format = START_FORMAT;
+                string s = "";
+                string fullName = "init";
+
+                foreach (var a in Authors)
+                {
+                    // Get full name, handling null Author object 
+                    fullName = (a.Author == null) ? "missing" : a.Author.fullName;
+
+                    // Add full name to list, handling first element differently
+                    format = (s.Length == 0) ? START_FORMAT : LIST_FORMAT;
+                    s = String.Format(format, s, fullName);
                 }
                 return s;
             }

@@ -148,17 +148,35 @@
                             </div>
 
                             <div class="row" style="width: 100%;">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label>Title:</label><br />
                                     <input id="sourceTitle" onfocus="this.select();" data-bind="value: title" type="text" style="width: 100%;" />
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <label>Author:</label>
                                     <br />
-                                    <select data-bind="options: app.savedAuthors,
+                                    <select data-bind="options: $root.savedAuthors,
                                                optionsText: 'fullName',
-                                               value: app.selectedAuthor,
+                                               optionsValue: 'id',
+                                               value: $root.selectedAuthor,
                                                optionsCaption: 'Choose...'"></select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Publisher:<span data-bind="text: $root.selectedPublisher"/></label>
+                                    <br />
+                                    <!-- Add typeahead for publishers -->
+                                    <select data-bind="options: $root.savedPublishers,
+                                               optionsText: 'name',
+                                               optionsValue: 'id',
+                                               value: $root.selectedPublisher,
+                                               optionsCaption: 'Choose...'"></select>
+                                    <!--input id="sourcePublisher" data-bind="value: publisherId" type="text" style="width: 100%;" /-->
+                                </div>
+                            </div>
+                            <div class="row" style="width: 100%;">
+                                <div class="col-md-2">
+                                    <label>ISBN:</label><br />
+                                    <input id="sourceISBN" onfocus="this.select();" data-bind="value: ISBN" type="text" style="width: 100%;" />
                                 </div>
                                 <div class="col-md-2">
                                     <label>Year:</label><br />
@@ -168,34 +186,21 @@
                                     <label>Original Year:</label><br />
                                     <input id="sourceOriginalYear" onfocus="this.select();" data-bind="value: yearOriginal" type="text" style="width: 100%;" />
                                 </div>
-                            </div>
-
-                            <div class="row" style="width: 100%;">
-                                <div class="col-md-3">
-                                    <label>Publisher:</label>
-                                    <br />
-                                    <!-- Add typeahead for publishers -->
-                                    <select data-bind="options: app.savedPublishers,
-                                               optionsText: 'name',
-                                               value: app.selectedPublisher,
-                                               optionsCaption: 'Choose...'"></select>
-                                    <!--input id="sourcePublisher" data-bind="value: publisherId" type="text" style="width: 100%;" /-->
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>Translator:</label><br />
                                     <input id="sourceTranslator" onfocus="this.select();" data-bind="value: translator" type="text" style="width: 100%;" />
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>Edition:</label><br />
                                     <input id="sourceEdition" onfocus="this.select();" data-bind="value: edition" type="text" style="width: 100%;" />
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>Volume:</label><br />
                                     <input id="sourceVolume" onfocus="this.select();" data-bind="value: volume" type="text" style="width: 100%;" />
                                 </div>
                             </div>
 
-                            <div class="row" style="width: 100%;">
+                            <div class="row" style="width: 100%;"><!-- ADD AUTHOR -->
                                 <div class="col-md-12">
                                     <div class="panel-group" id="accordionSourceProps">
                                         <div class="panel panel-success">
@@ -283,7 +288,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div><!-- ADD AUTHOR -->
                         </div>
                     </div>
                 </div>
@@ -326,7 +331,7 @@
 
                     <tbody data-bind="foreach: savedQuotes">
                         <tr>
-                            <td data-bind="text: quoteText, click: showSource" />
+                            <td data-bind="text: quoteText, click: $root.showSource" />
                             <td data-bind="text: Source.title" />
                             <td data-bind="text: Source.title" />
                             <td data-bind="text: page" />
@@ -367,7 +372,10 @@
                             <th>Year</th>
                             <th>yearOriginal</th>
                             <th>Publisher</th>
+                            <th>ISBN</th>
                             <th>Volume</th>
+                            <th>Edition</th>
+                            <th>Translator</th>
                         </tr>
                     </thead>
 
@@ -378,7 +386,10 @@
                             <td data-bind="text: year"></td>
                             <td data-bind="text: yearOriginal"></td>
                             <td data-bind="text: publisher"></td>
+                            <td data-bind="text: ISBN"></td>
                             <td data-bind="text: volume"></td>
+                            <td data-bind="text: edition"></td>
+                            <td data-bind="text: translator"></td>
                         </tr>
                     </tbody>
                 </table>

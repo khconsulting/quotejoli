@@ -35,37 +35,11 @@ namespace quotejoliservice.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Country>()
-                .Property(e => e.ISO2)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Country>()
                 .Property(e => e.CountryName)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Country>()
                 .Property(e => e.LongCountryName)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Country>()
-                .Property(e => e.ISO3)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Country>()
-                .Property(e => e.NumCode)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Country>()
-                .Property(e => e.UNMemberState)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Country>()
-                .Property(e => e.CallingCode)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Country>()
-                .Property(e => e.CCTLD)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Publisher>()

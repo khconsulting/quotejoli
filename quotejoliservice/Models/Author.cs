@@ -23,5 +23,20 @@ namespace quotejoliservice.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SourceAuthor> Sources { get; set; }
+
+        public string fullName
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(firstName))
+                {
+                    return lastName;
+                }
+                else
+                {
+                    return String.Format("{0}, {1}", lastName, firstName);
+                }
+            }
+        }
     }
 }
