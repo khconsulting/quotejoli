@@ -98,10 +98,10 @@
                     <div class="col-md-9">
                         <label style="width: 100%;">
                             Quote:
+                            <button data-bind='click: $root.addQuote' class="btn btn-default label label-primary" style="text-align: right" aria-label="Right Align">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true" /> Add
+                            </button>
                         </label>
-                    </div>
-                    <div class="col-md-3">
-
                     </div>
                 </div><!-- Header -->
 
@@ -112,7 +112,7 @@
                         <label>
                             Source <a data-toggle="collapse" data-parent="#accordion" href="#addSourcePane">
                                 (<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span> New</span>)
-                            </a>
+                            </a><span data-bind="visible: $root.debug, text: app.selectedSource() ? ' ' + app.selectedSource().title : 'NOTHING SELECTED'" />
                         </label>
                         <br />
                         <!-- Add typeahead for sources -->
@@ -153,21 +153,20 @@
                                     <input id="sourceTitle" onfocus="this.select();" data-bind="value: title" type="text" style="width: 100%;" />
                                 </div>
                                 <div class="col-md-4">
-                                    <label>Author:</label>
+                                    <label>Author:<span data-bind="visible: $root.debug, text: $root.selectedAuthors() ? ' ' + $root.selectedAuthors().length : 'NOTHING SELECTED'" /></label>
                                     <br />
                                     <select data-bind="options: $root.savedAuthors,
                                                optionsText: 'fullName',
-                                               optionsValue: 'id',
-                                               value: $root.selectedAuthor,
-                                               optionsCaption: 'Choose...'"></select>
+                                               selectedOptions: $root.selectedAuthors" 
+                                            size="3" 
+                                            multiple></select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label>Publisher:<span data-bind="text: $root.selectedPublisher"/></label>
+                                    <label>Publisher:<span data-bind="visible: $root.debug, text: $root.selectedPublisher() ? ' ' + $root.selectedPublisher().name : ''"/></label>
                                     <br />
                                     <!-- Add typeahead for publishers -->
                                     <select data-bind="options: $root.savedPublishers,
                                                optionsText: 'name',
-                                               optionsValue: 'id',
                                                value: $root.selectedPublisher,
                                                optionsCaption: 'Choose...'"></select>
                                     <!--input id="sourcePublisher" data-bind="value: publisherId" type="text" style="width: 100%;" /-->

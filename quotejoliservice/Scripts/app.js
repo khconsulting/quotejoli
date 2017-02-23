@@ -1,8 +1,58 @@
 ﻿try {
     var tokenKey = 'accessToken';
 
+    var Publisher = function (_id,
+                              _name,
+                              _city,
+                              _state,
+                              _countryId,
+                              _countryName) {
+        this.id = _id;
+        this.name = _name;
+        this.city = _city;
+        this.state = _state;
+        this.countryId = _countryId;
+        this.countryName = _countryName;
+    };
+
+    var Author = function (_id
+                           ,_firstName
+                           ,_lastName
+                           ,_fullName) {
+        this.id = _id;
+        this.authorId = _id;
+        this.firstName = _firstName;
+        this.lastName = _lastName;
+        this.fullName = _fullName;
+    };
+
+    var Source= function (_id
+                          ,_title
+                          ,_year
+                          ,_yearOriginal
+                          ,_publisherId
+                          ,_publisher
+                          ,_volume
+                          ,_edition
+                          ,_translator
+                          ,_ISBN
+                          ,_authors) {
+        this.id = _id;
+        this.title = _title;
+        this.year = _year;
+        this.yearOriginal = _yearOriginal;
+        this.publisherId = _publisherId;
+        this.publisher = _publisher;
+        this.volume = _volume;
+        this.edition = _edition;
+        this.translator = _translator;
+        this.ISBN = _ISBN;
+        this.authors = _authors;
+    };
+
     function ViewModel() {
         var self = this;
+        self.debug = ko.observable(true);
 
         /*===== Quote objects ====*/
         self.newQuotes = ko.observableArray([]);
@@ -48,7 +98,6 @@
         self.countries = ko.observableArray([]);
         self.selectedCountry = ko.observable();
 
-        self.debug = ko.observable(true);
         self.errorText = ko.observable();
         self.titleBool = ko.observable('');
         self.titleNot = ko.observable('');
@@ -94,14 +143,13 @@
 
                 $.each(data, function (index, item) {
                     results.push(item.name);
-                    fullResults.push({
-                        id: item.id,
-                        name: item.name,
-                        city: item.city,
-                        state: item.state,
-                        countryId: item.countryId,
-                        countryName: item.Country.CountryName
-                    });
+                    p = new Publisher(item.id,
+                                      item.name,
+                                      item.city,
+                                      item.state,
+                                      item.countryId,
+                                      item.countryName);
+                    fullResults.push(p);
                 });
                 self.savedPublishers(fullResults);
 
@@ -147,12 +195,18 @@
                 var fullResults = [];
                 
                 $.each(data, function (index, item) {
-                    fullResults.push({
+                    var a = new Author(item.id
+                                      , item.firstName
+                                      , item.lastName
+                                      , item.fullName);
+                    fullResults.push(a);
+                    
+/*                    fullResults.push({
                         id: item.id,
                         firstName: item.firstName,
                         lastName: item.lastName,
                         fullName: item.lastName + ', ' + item.firstName
-                    });
+                    });*/
                 });
 
                 self.savedAuthors(fullResults);
@@ -166,7 +220,7 @@
             var data = {
                 id: 0,
                 text: quote.quoteText,
-                sourceId: quote.sourceId,
+                sourceId: app.selectedSource().id,
                 page: quote.page,
                 para: quote.paragraph
             };
@@ -198,10 +252,9 @@
                 year: source.year,
                 yearOriginal: source.yearOriginal,
                 volume: source.volume,
-                publisherId: app.selectedPublisher(),
-                authorId: app.selectedAuthor(),
+                publisherId: app.selectedPublisher().id,
                 edition: source.edition,
-                Authors: [{ authorId: app.selectedAuthor() }, { authorId: 1 }],
+                Authors: app.selectedAuthors(),
                 translator: source.translator,
                 isbn: source.ISBN
             };
@@ -216,15 +269,12 @@
                 //,headers: headers
             }).done(function (data) {
                 source.id = data;
-//                self.savedSource.push(source);
                 self.errorText("Success");
                 self.result("Added new source");
                 $('#quoteModal').modal('show');
                 self.getSources();
                 self.resetNewSources();
             }).fail(showError);
-
-            alert("Adding source");
         }
 
         findAuthor = function (findId) {
@@ -310,8 +360,6 @@
                 firstName: "AUTHOR FIRST NAME",
                 lastName: "AUTHOR LAST NAME",
             });
-            alert('Add Author');
-//            resetNewAuthors();
         };
 
         function resetNewQuotes() {
@@ -413,6 +461,7 @@
 
             // Clear list
             self.savedSources([]);
+            var src = null;
 
             $.ajax({
                 type: 'GET',
@@ -420,6 +469,20 @@
             }).done(function (data) {
                 var fullResults = [];
                 $.each(data, function (index, item) {
+                    src = new Source(item.id,
+                                     item.title,
+                                     item.year,
+                                     item.yearOriginal,
+                                     item.publisherId,
+                                     item.Publisher.name,
+                                     item.volume,
+                                     item.edition,
+                                     item.translator,
+                                     item.isbn,
+                                     item.AuthorNames);
+
+                    fullResults.push(src);
+                    /*
                     fullResults.push({
                         id: item.id,
                         title: item.title,
@@ -432,7 +495,7 @@
                         translator: item.translator,
                         ISBN: item.isbn,
                         authors: item.AuthorNames,
-                    });
+                    });*/
                 });
 
                 self.savedSources(fullResults);
