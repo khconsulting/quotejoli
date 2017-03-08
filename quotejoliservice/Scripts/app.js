@@ -1,6 +1,15 @@
 ﻿try {
     var tokenKey = 'accessToken';
 
+//    var rootRoute = "quotejoli/api/";
+    var rootRoute = "api/";
+
+    var loadingQuotes = ko.observable(true);
+    var loadedSources = ko.observable(false);
+    var loadedPublishers = ko.observable(false);
+    var loadedAuthors = ko.observable(false);
+    var loadedCountries = ko.observable(false);
+
     var Publisher = function (_id,
                               _name,
                               _city,
@@ -136,7 +145,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '/api/Publishers'
+                url: rootRoute + 'Publishers'
             }).done(function (data) {
                 var results = [];
                 var fullResults = [];
@@ -162,7 +171,7 @@
             
             $.ajax({
                 type: 'GET',
-                url: '/api/Countries'
+                url: rootRoute + 'Countries'
             }).done(function (data) {
                 var fullResults = [];
 
@@ -189,7 +198,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '/api/Authors'
+                url: rootRoute + 'Authors'
             }).done(function (data) {
                 var results = [];
                 var fullResults = [];
@@ -228,7 +237,7 @@
             // Handle authorization
             $.ajax({
                 type: 'POST',
-                url: '/api/Quotes',
+                url: rootRoute + 'Quotes',
                 data: JSON.stringify(data),
                 contentType: "application/json"
                 //,headers: headers
@@ -263,7 +272,7 @@
             // Handle authorization
             $.ajax({
                 type: 'POST',
-                url: '/api/Sources',
+                url: rootRoute + 'Sources',
                 data: JSON.stringify(data),
                 contentType: "application/json"
                 //,headers: headers
@@ -300,7 +309,7 @@
                         // Handle authorization
             $.ajax({
                 type: 'POST',
-                url: '/api/Publishers',
+                url: rootRoute + 'Publishers',
                 data: JSON.stringify(data),
                 contentType: "application/json"
                 //,headers: headers
@@ -312,7 +321,6 @@
                 self.getPublishers();
                 self.newPublishers([]);
             }).fail(showError);
-            
         }
 
         this.addNewQuote = function () {
@@ -339,7 +347,7 @@
             
             $.ajax({
                 type: 'POST',
-                url: '/api/Authors',
+                url: rootRoute + 'Authors',
                 data: JSON.stringify(data),
                 contentType: "application/json"
                 //,headers: headers
@@ -434,7 +442,7 @@
             $.ajax({
                 type: 'GET',
 //                url: '/api/Quotes/1'
-                url: '/api/Quotes'
+                url: rootRoute + 'Quotes'
             }).done(function (data) {
                 var fullResults = [];
                 $.each(data, function (index, item) {
@@ -449,7 +457,7 @@
                 });
 
                 self.savedQuotes(fullResults);
-
+                loadingQuotes(false);
             }).fail(showError);
         }
 
@@ -465,7 +473,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '/api/Sources'
+                url: rootRoute + 'Sources'
             }).done(function (data) {
                 var fullResults = [];
                 $.each(data, function (index, item) {

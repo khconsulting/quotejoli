@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using quotejoliservice.Data;
 using quotejoliservice.Models;
+using log4net;
 
 namespace quotejoliservice.Controllers
 {
@@ -17,9 +18,12 @@ namespace quotejoliservice.Controllers
     {
         private quotejoliContext db = new quotejoliContext();
 
+        private static readonly ILog log  = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         // GET: api/Sources
         public IQueryable<Source> GetSources()
         {
+            log.Debug("GET Request trace");
             return db.Sources;
         }
 
@@ -75,6 +79,11 @@ namespace quotejoliservice.Controllers
         [ResponseType(typeof(Source))]
         public IHttpActionResult PostSource(Source source)
         {
+            log.Debug(String.Format("New source : \n\tTitle: (0)\n\tAuthor(s): {1}\n\tPublisher: {2}"
+                                        , source.title
+                                        ,source.AuthorNames
+                                        ,source.Publisher == null ? "NULL" : source.Publisher.name));
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

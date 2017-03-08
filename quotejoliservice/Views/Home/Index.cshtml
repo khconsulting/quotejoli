@@ -307,7 +307,15 @@
         </div>
 
         <div id="quoteCollapse" class="panel-collapse collapse">
-            <div data-bind="visible: (savedQuotes().length == 0)" class="panel-body">
+            <div id="quote-loading-overlay" data-bind="visible: loadingQuotes" class="panel-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">Loading Quotes</span>
+                    </div>
+                </div>
+                Loading Quotes...
+            </div>
+            <div data-bind="visible: loadingQuotes && (savedQuotes().length == 0)" class="panel-body">
                 <h4>I can't find any quotes in the system.</h4>
             </div>
             <div data-bind="visible: (savedQuotes().length > 0)" class="panel-body row">
