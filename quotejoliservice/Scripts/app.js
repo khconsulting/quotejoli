@@ -2,13 +2,23 @@
     var tokenKey = 'accessToken';
 
 //    var rootRoute = "quotejoli/api/";
-    var rootRoute = "api/";
+    var rootRoute = "/api/";
 
     var loadingQuotes = ko.observable(true);
     var loadedSources = ko.observable(false);
     var loadedPublishers = ko.observable(false);
     var loadedAuthors = ko.observable(false);
     var loadedCountries = ko.observable(false);
+    var filterOptions = ko.observableArray(['None', 'And', 'Or']);
+    var quoteOption = ko.observable();
+    var titleOption = ko.observable();
+    var tagOption = ko.observable();
+    var authorOption = ko.observable();
+    var sourcesReady = ko.observable(false);
+    var quoteSource = ko.observable();
+    var quotePage = ko.observable(15);
+    var quoteParagraph = ko.observable();
+    var quoteText = ko.observable();
 
     var Publisher = function (_id,
                               _name,
@@ -61,10 +71,17 @@
 
     function ViewModel() {
         var self = this;
-        self.debug = ko.observable(true);
+        self.debug = ko.observable(false);
 
         /*===== Quote objects ====*/
-        self.newQuotes = ko.observableArray([]);
+        self.newQuote = ko.observable({
+            id: 0,
+            quoteText: '',
+            sourceId: null,
+            title: '',
+            page: 0,
+            paragraph: 0
+        });
         self.savedQuotes = ko.observableArray([]);
 
         /*===== Source objects ====*/
@@ -72,19 +89,6 @@
         self.newSources = ko.observableArray([]);
         self.savedSources = ko.observableArray([]);
         self.savedSourceTitles = ko.observableArray([]);
-        self.sourceFilter = ko.observable('');
-        self.FilteredSources = ko.computed(function () {
-            var hasFilter = self.sourceFilter().length > 0;
-            var lowerFilter = self.sourceFilter().toLowerCase();
-            if (!hasFilter) {
-                return self.savedSources();
-            }
-            else {
-                return ko.utils.arrayFilter(self.savedSources(), function (src) {
-                    return ko.utils.stringStartsWith(src.title.toLowerCase(), lowerFilter);
-                });
-            }
-        }, self);
 
         /*===== Publisher objects ====*/
         self.selectedPublisher = ko.observable(3);
@@ -225,7 +229,8 @@
 
         this.addQuote = function (quote) {
             ResetErrors();
-
+            window.alert("New quote:\nSource: " + quoteSource() + "\nPage: " + quotePage() + "\nParagraph: " + quoteParagraph() + "\nText: " + quoteText());
+            return;
             var data = {
                 id: 0,
                 text: quote.quoteText,
@@ -324,15 +329,16 @@
         }
 
         this.addNewQuote = function () {
-            self.newQuotes.push({
+            self.newQuote({
                 id: 0,
                 quoteText: "NEW QUOTE",
-                sourceId: 0,
+                sourceId: null,
+                title: '',
                 page: 0,
                 paragraph: 0
             });
 
-            resetNewSources();
+//            resetNewSources();
         };
 
         this.addAuthor = function (author) {
@@ -373,10 +379,11 @@
         function resetNewQuotes() {
             self.newQuotes.removeAll();
 
-            self.newQuotes.push({
+            self.newQuote({
                 id: 0,
                 quoteText: "NEW QUOTE",
                 sourceId: 0,
+                title: '',
                 page: 0,
                 paragraph: 0
             });
@@ -470,12 +477,14 @@
             // Clear list
             self.savedSources([]);
             var src = null;
+            var titleResults = [];
 
             $.ajax({
                 type: 'GET',
                 url: rootRoute + 'Sources'
             }).done(function (data) {
                 var fullResults = [];
+                var qq = 0;
                 $.each(data, function (index, item) {
                     src = new Source(item.id,
                                      item.title,
@@ -490,6 +499,8 @@
                                      item.AuthorNames);
 
                     fullResults.push(src);
+                    titleResults.push(src.title);
+                    qq++;
                     /*
                     fullResults.push({
                         id: item.id,
@@ -506,7 +517,32 @@
                     });*/
                 });
 
-                self.savedSources(fullResults);
+                /* TESTING DATA
+fullResults = [
+    { title: 'Hey', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Abc', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Squonk', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Flirp', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Jung\'s Women', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Flark', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Moomf', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Plipt', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Palimpsest', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Skite', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Pangle', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Flurry', id: 0, authorNames: ['Carroll', 'Vonnegut'] },
+    { title: 'Marks and Such', id: 0, authorNames: ['Carroll', 'Vonnegut'] }
+];*/
+                window.alert("Results count: " + qq);
+
+window.alert("fullResults In getSources in block: " + self.savedSources().length);
+self.savedSources(titleResults);
+                window.alert("savedSources In getSources in block: " + self.savedSources().length);
+                sourcesReady(true);
+
+                $("#source").autocomplete({
+                    source: app.savedSources()
+                });
 
             }).fail(showError);
         }
@@ -588,15 +624,46 @@
         }
 
     ko.applyBindings(app);
-
+    /*
     app.getQuotes();
     app.getPublishers();
     app.getAuthors();
     app.getCountries();
-    app.addNewQuote();
+    */
     app.getSources();
-    app.resetUI();
+    app.addNewQuote();
+    var q = 0;
+    while (!sourcesReady)
+    {
+        q++;
+        if (q % 1000 == 0)
+        {
+            window.alert(q);
+        }
+    }
+    var esses = "";
+    for (var source in app.savedSources)
+    {
+        esses += ", " + source
+    }
+    window.alert(app.savedSources());
+    $("#source").autocomplete({
+        source: app.savedSources()
+    });
+
+    //    app.resetUI();
 }
 catch (ex) {
     window.alert("Error: " + ex.message);
 }
+/*
+var count = 1;
+function newSource() {
+    var copy = [];
+    for (var i in source) {
+        copy[i] = source[i] + count;
+    }
+    ++count;
+    return copy;
+}
+*/
